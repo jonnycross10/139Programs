@@ -28,7 +28,6 @@ OSs Tested on: such as Linux, Mac, etc.
 void* gShmPtr;
 
 // You won't necessarily need all the functions below
-void SetIn(int);
 void SetOut(int);
 void SetHeaderVal(int, int);
 int GetBufSize();
@@ -41,29 +40,28 @@ int ReadAtBufIndex(int);
 
 int main()
 {
-    printf("consumer running");
     const char *name = "OS_HW1_JonathanCross"; // Name of shared memory block to be passed to shm_open
     int bufSize; // Bounded buffer size
     int itemCnt; // Number of items to be consumed
     int in; // Index of next item to produce
     int out; // Index of next item to consume
-    const int SIZE = 4096;
     int fileDesc;
      
     // Write code here to create a shared memory block and map it to gShmPtr
     // Use the above name
     // **Extremely Important: map the shared memory block for both reading and writing 
     // Use PROT_READ | PROT_WRITE
-    fileDesc = shm_open(name, O_RDONLY, 0666);
-    gShmPtr = mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fileDesc, 0);
+    fileDesc = shm_open(name, O_RDWR, 0666);
+    int trunc = ftruncate(fileDesc, SHM_SIZE);
+    gShmPtr = mmap(0, SHM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fileDesc, 0);
 
     // Write code here to read the four integers from the header of the shared memory block 
     // These are: bufSize, itemCnt, in, out
     // Just call the functions provided below like this:
     bufSize = GetBufSize();
-    itemCnt = GetItemCnt(itemCnt);
-    in = GetIn(in);
-    out = GetOut(out);
+    itemCnt = GetItemCnt();
+    in = GetIn();
+    out = GetOut();
 	
     // Write code here to check that the consumer has read the right values: 
     printf("Consumer reading: bufSize = %d\n",bufSize);
@@ -95,11 +93,7 @@ int main()
 }
 
 
-// Set the value of shared variable "in"
-void SetIn(int val)
-{
-    SetHeaderVal(2, val);
-}
+
 
 // Set the value of shared variable "out"
 void SetOut(int val)
@@ -110,10 +104,10 @@ void SetOut(int val)
 // Get the ith value in the header
 int GetHeaderVal(int i)
 {
-    int val;
-    void* ptr = gShmPtr + i*sizeof(int);
-    memcpy(&val, ptr, sizeof(int));
-    return val;
+  int val;
+  void *ptr = gShmPtr + i * sizeof(int);
+  memcpy(&val, ptr, sizeof(int));
+  return val;
 }
 
 // Set the ith value in the header
@@ -162,8 +156,8 @@ int ReadAtBufIndex(int indx)
 {
     // Write the implementation
     int val;
-    void *ptr = gShmPtr + 4 * sizeof(int) + indx * sizeof(int);
-    memcpy(ptr, &val, sizeof(int));
+    void *ptr = gShmPtr + 4*sizeof(int) + indx*sizeof(int);
+    memcpy(&val, ptr, sizeof(int));
     return val;
 }
 
