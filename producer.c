@@ -141,8 +141,9 @@ void Producer(int bufSize, int itemCnt, int randSeed) {
   for(int i=0; i<itemCnt; i++){
       curVal = GetRand(0, 3000);
       int fullCounter=0;
-      while((GetIn()+1)% GetBufSize()== GetOut())
-
+      while((GetIn()+1)% GetBufSize()== GetOut()){
+        sleep(1);
+      }
       WriteAtBufIndex(i, curVal);
       printf("Producing Item %d with value %d at Index %d\n", i, curVal, GetIn());
       SetIn((GetIn()+1)%bufSize);
