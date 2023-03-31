@@ -2,7 +2,7 @@
 CSC139
 Spring 2023
 First Assignment
-Last Name, First Name
+Cross, Jonathan
 Section #
 OSs Tested on: such as Linux, Mac, etc.
 */
