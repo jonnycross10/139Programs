@@ -99,16 +99,15 @@ void InitShm(int bufSize, int itemCnt) {
   int out = 0;
   // Name of shared memory object to be passed to shm_open
   const char *name = "OS_HW1_JonathanCross";
-  const int SIZE = 4096;
   int fileDesc;
 
   // Write code here to create a shared memory block and map it to gShmPtr
   // Use the above name.
   fileDesc = shm_open(name, O_CREAT | O_RDWR, 0666);
-  int trunc = ftruncate(fileDesc, SIZE);
+  int trunc = ftruncate(fileDesc, SHM_SIZE);
   // **Extremely Important: map the shared memory block for both reading and
   // writing Use PROT_READ | PROT_WRITE
-  gShmPtr = mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fileDesc, 0);
+  gShmPtr = mmap(0, SHM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fileDesc, 0);
 
   // Write code here to set the values of the four integers in the header
   // Just call the functions provided below, like this
@@ -177,7 +176,6 @@ void SetHeaderVal(int i, int val) {
   // Write the implementation
   void *ptr = gShmPtr + i * sizeof(int);
   memcpy(ptr, &val, sizeof(int));
-  //printf("changed header value #%d to %d\n", i, GetHeaderVal(i));
 }
 
 // Get the value of shared variable "bufSize"
