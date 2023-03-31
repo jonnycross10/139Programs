@@ -2,7 +2,7 @@
 CSC139 
 Spring 2023
 First Assignment
-Last Name, First Name
+Cross, Jonathan
 Section #
 OSs Tested on: such as Linux, Mac, etc.
 */
@@ -77,9 +77,11 @@ int main()
     for(int i=0; i<itemCnt; i++){
       int fullCounter = 0;
       int emptyCounter=0;
-      while(GetIn()== GetOut())
+      while(GetIn()== GetOut()){
+        sleep(1);
+      }
       curVal = ReadAtBufIndex(i);
-      printf("Consuming Item %d with value %d at Index %d\n", i, curVal, out);
+      printf("Consuming Item %d with value %d at Index %d\n", i, curVal, GetOut());
       SetOut((GetOut()+1)%bufSize);
     }            
           
