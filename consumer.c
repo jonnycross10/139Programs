@@ -4,7 +4,7 @@ Spring 2023
 First Assignment
 Cross, Jonathan
 Section 03
-OSs Tested on: such as Linux, Mac, etc.
+OSs Tested on: Ubuntu, ReplOS(linux based)
 */
 
 #include <fcntl.h>
