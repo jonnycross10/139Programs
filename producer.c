@@ -3,7 +3,7 @@ CSC139
 Spring 2023
 First Assignment
 Cross, Jonathan
-Section #
+Section 03
 OSs Tested on: such as Linux, Mac, etc.
 */
 
